@@ -178,3 +178,26 @@ Clean Terraform evidence summary:
 - evidence/terraform-automation-summary.md
 
 Terraform state files and provider cache folders are excluded from Git using `.gitignore`.
+
+## Kubernetes and Helm
+
+This project includes a Helm chart for deploying the protected FastAPI API to Kubernetes.
+
+Kubernetes and Helm coverage:
+
+- kind local Kubernetes cluster
+- Helm chart for platform API
+- Kubernetes Deployment and NodePort Service
+- Access without kubectl port-forward using kind port mapping
+- Readiness and liveness probes
+- Resource requests and limits
+- JWT validation from a Kubernetes-hosted workload
+- Production mapping for GKE, OpenShift and enterprise Kubernetes
+
+Documentation:
+
+- docs/kubernetes/kubernetes-helm.md
+
+Clean evidence summary:
+
+- evidence/kubernetes-helm-summary.md

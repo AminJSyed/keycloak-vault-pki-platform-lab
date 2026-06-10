@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: platform-api
+  labels:
+    app.kubernetes.io/name: platform-api
+    app.kubernetes.io/part-of: keycloak-vault-pki-platform-lab
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    app.kubernetes.io/name: platform-api
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: 8000
+      {{- if eq .Values.service.type "NodePort" }}
+      nodePort: {{ .Values.service.nodePort }}
+      {{- end }}

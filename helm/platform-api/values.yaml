@@ -1,0 +1,25 @@
+replicaCount: 1
+
+image:
+  repository: platform-api
+  tag: local
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 8000
+  nodePort: 30080
+
+env:
+  KEYCLOAK_REALM: iam-lab
+  KEYCLOAK_ISSUER: http://localhost:8180/realms/iam-lab
+  KEYCLOAK_INTERNAL_JWKS_URL: http://host.docker.internal:8180/realms/iam-lab/protocol/openid-connect/certs
+  KEYCLOAK_AUDIENCE: account
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
