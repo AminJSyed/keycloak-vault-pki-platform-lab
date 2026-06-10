@@ -1,0 +1,32 @@
+name: Validate Lab
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate Docker Compose configuration
+        run: docker compose config
+
+      - name: Validate shell scripts
+        run: |
+          bash -n keycloak/scripts/init-keycloak.sh
+          bash -n keycloak/scripts/get-token.sh
+          bash -n vault/scripts/init-vault-pki.sh
+
+      - name: Check sensitive Vault evidence is not tracked
+        run: |
+          if git ls-files | grep -E 'evidence/.*\.(json|crt|pem|txt)$'; then
+            echo "Sensitive evidence file is tracked. Remove it before publishing."
+            exit 1
+          fi
+          echo "No sensitive Vault raw evidence files are tracked."
