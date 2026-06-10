@@ -140,3 +140,16 @@ This lab runs locally using Docker Compose, but the architecture maps to real en
 | Local scripts | Terraform, Helm, ArgoCD and CI/CD automation |
 
 The project is intentionally sanitized for public GitHub use. Raw secrets, private keys, certificates, Vault JSON outputs and CRL files are excluded from version control.
+
+## Roadmap
+
+Planned improvements:
+
+- Add Terraform automation for Keycloak realm, client, users and roles
+- Add Terraform automation for Vault KV, policies and PKI roles
+- Add Kubernetes deployment using kind or minikube
+- Add Helm values for Keycloak, Vault and the protected API
+- Add ArgoCD GitOps application manifests
+- Add Prometheus and Grafana observability dashboards
+- Add CI validation for Docker Compose, shell scripts and security scanning
+- Add architecture decision records for IAM, Vault and PKI design choices
