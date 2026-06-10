@@ -122,3 +122,21 @@ Raw Vault files such as certificates, private keys, JSON outputs, CRL files, and
 - CRL lifecycle evidence
 - Docker Compose-based local platform setup
 - Secure DevSecOps documentation
+
+## Production Mapping
+
+This lab runs locally using Docker Compose, but the architecture maps to real enterprise platform patterns:
+
+| Lab Component | Production Equivalent |
+|---|---|
+| Docker Compose | Kubernetes, OpenShift, or GKE |
+| Keycloak single node | Keycloak HA deployment with external database |
+| PostgreSQL container | Managed PostgreSQL or HA database cluster |
+| Vault dev mode | Vault HA with Raft storage and KMS/HSM auto-unseal |
+| Local OIDC client | Enterprise application client integration |
+| Demo user and role | Federated users, groups, RBAC and ABAC policies |
+| Vault KV secret | Application secrets and dynamic credentials |
+| Vault PKI root CA | Internal CA, intermediate CA and certificate lifecycle |
+| Local scripts | Terraform, Helm, ArgoCD and CI/CD automation |
+
+The project is intentionally sanitized for public GitHub use. Raw secrets, private keys, certificates, Vault JSON outputs and CRL files are excluded from version control.
