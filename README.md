@@ -1,0 +1,124 @@
+# Keycloak Vault PKI Platform Lab
+
+Cloud-native IAM, secrets management, and PKI platform lab using Keycloak, HashiCorp Vault, FastAPI, Docker Compose, OIDC, JWT validation, and certificate lifecycle automation.
+
+This project is built as a hands-on engineering lab to demonstrate IAM, Keycloak, Vault, PKI, DevSecOps, and secure platform engineering skills.
+
+## Architecture Overview
+
+![Cloud-Native IAM, Secrets and PKI Platform Lab](docs/images/cloud-native-iam-secrets-pki-architecture.png)
+
+This diagram shows the production-style flow of the lab, including Keycloak IAM, identity providers, OIDC/JWT authentication, protected APIs, HashiCorp Vault secrets management, Vault PKI certificate lifecycle, automation, GitOps, and observability.
+
+## What This Project Demonstrates
+
+- Keycloak-based IAM setup
+- Realm, client, user, and role configuration
+- OIDC access token generation
+- JWT validation using Keycloak JWKS
+- Protected API integration using FastAPI
+- HashiCorp Vault KV secrets engine
+- Vault PKI secrets engine
+- Internal root CA generation
+- Short-lived certificate issuance
+- Certificate revocation
+- CRL endpoint evidence
+- Secure handling of sensitive evidence before publishing to GitHub
+
+## Services and Ports
+
+| Service | Local URL |
+|---|---|
+| Keycloak | http://localhost:8180 |
+| Vault | http://localhost:8200 |
+| FastAPI Backend | http://localhost:8100 |
+| FastAPI Docs | http://localhost:8100/docs |
+| PostgreSQL | localhost:5433 |
+
+## Local Credentials
+
+This is a local lab only. Do not use these credentials in production.
+
+| Service | Username | Password / Token |
+|---|---|---|
+| Keycloak Admin | admin | admin |
+| Keycloak Test User | amin | Password123! |
+| Vault Root Token | root | root |
+
+## Start the Lab
+
+Run:
+
+docker compose up -d --build
+
+Check containers:
+
+docker compose ps
+
+## Configure Keycloak
+
+Run:
+
+bash keycloak/scripts/init-keycloak.sh
+
+This creates:
+
+- Realm: iam-lab
+- Client: iam-lab-cli
+- User: amin
+- Role: platform-engineer
+
+## Get an OIDC Token
+
+Run:
+
+TOKEN=$(bash keycloak/scripts/get-token.sh)
+echo "$TOKEN"
+
+## Test the Protected API
+
+Run:
+
+curl -H "Authorization: Bearer $TOKEN" http://localhost:8100/protected | python3 -m json.tool
+
+## Configure Vault Secrets and PKI
+
+Run:
+
+bash vault/scripts/init-vault-pki.sh
+
+This configures:
+
+- KV v2 secrets engine
+- Demo backend application secret
+- PKI secrets engine
+- Internal root CA
+- PKI role for iam-lab.local
+- Short-lived certificate issuance
+- Certificate revocation
+- CRL evidence
+
+## Evidence
+
+Clean evidence summaries are stored in:
+
+- evidence/keycloak-oidc-summary.md
+- evidence/vault-pki-summary.md
+
+Raw Vault files such as certificates, private keys, JSON outputs, CRL files, and secret evidence are ignored using .gitignore and should not be committed.
+
+## Skills Demonstrated
+
+- IAM engineering
+- Keycloak administration basics
+- OIDC authentication flow
+- OAuth2 token flow
+- JWT validation
+- JWKS verification
+- User and role management
+- HashiCorp Vault secrets management
+- Vault PKI certificate lifecycle
+- Certificate issuance and revocation
+- CRL lifecycle evidence
+- Docker Compose-based local platform setup
+- Secure DevSecOps documentation
