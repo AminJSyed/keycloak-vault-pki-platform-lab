@@ -153,3 +153,28 @@ Planned improvements:
 - Add Prometheus and Grafana observability dashboards
 - Add CI validation for Docker Compose, shell scripts and security scanning
 - Add architecture decision records for IAM, Vault and PKI design choices
+
+## Terraform Automation
+
+This project includes Terraform examples for managing Keycloak and Vault configuration as code.
+
+Terraform automation covers:
+
+- Keycloak realm creation
+- Keycloak OIDC client configuration
+- Keycloak realm roles
+- Vault KV v2 secrets engine
+- Vault PKI secrets engine
+- Vault internal root CA
+- Vault PKI role for certificate issuance
+
+Terraform folders:
+
+- terraform/keycloak
+- terraform/vault
+
+Clean Terraform evidence summary:
+
+- evidence/terraform-automation-summary.md
+
+Terraform state files and provider cache folders are excluded from Git using `.gitignore`.
