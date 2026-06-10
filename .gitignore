@@ -1,0 +1,21 @@
+.DS_Store
+.env
+*.log
+
+# Python
+__pycache__/
+.pytest_cache/
+.venv/
+
+# Sensitive Vault generated evidence
+evidence/*.json
+evidence/*.crt
+evidence/*.pem
+evidence/*.txt
+
+# Allow clean markdown evidence
+!evidence/*.md
+
+# Keep screenshots folder
+!evidence/screenshots/
+!evidence/screenshots/.gitkeep

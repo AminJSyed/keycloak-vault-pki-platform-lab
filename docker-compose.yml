@@ -1,0 +1,74 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: iam-lab-postgres
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - iam_lab
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.6.0
+    container_name: iam-lab-keycloak
+    command: start-dev
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL_HOST: postgres
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak
+      KC_HTTP_ENABLED: "true"
+      KC_HOSTNAME_STRICT: "false"
+      KC_HEALTH_ENABLED: "true"
+      KC_METRICS_ENABLED: "true"
+    ports:
+      - "8180:8080"
+    depends_on:
+      - postgres
+    networks:
+      - iam_lab
+
+  vault:
+    image: hashicorp/vault:1.21.3
+    container_name: iam-lab-vault
+    command: server -dev -dev-root-token-id=root -dev-listen-address=0.0.0.0:8200
+    cap_add:
+      - IPC_LOCK
+    environment:
+      VAULT_ADDR: http://0.0.0.0:8200
+      VAULT_DEV_ROOT_TOKEN_ID: root
+    ports:
+      - "8200:8200"
+    networks:
+      - iam_lab
+
+  backend:
+    build:
+      context: ./app/backend
+    container_name: iam-lab-backend
+    environment:
+      KEYCLOAK_REALM: iam-lab
+      KEYCLOAK_ISSUER: http://localhost:8180/realms/iam-lab
+      KEYCLOAK_INTERNAL_JWKS_URL: http://keycloak:8080/realms/iam-lab/protocol/openid-connect/certs
+      KEYCLOAK_AUDIENCE: account
+    ports:
+      - "8100:8000"
+    depends_on:
+      - keycloak
+    networks:
+      - iam_lab
+
+volumes:
+  postgres_data:
+
+networks:
+  iam_lab:
+    driver: bridge
