@@ -19,3 +19,17 @@ evidence/*.txt
 # Keep screenshots folder
 !evidence/screenshots/
 !evidence/screenshots/.gitkeep
+
+# Terraform local files and state
+.terraform/
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraform.lock.hcl
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
