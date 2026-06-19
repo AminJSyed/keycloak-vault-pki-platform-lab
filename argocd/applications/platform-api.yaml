@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-api
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: keycloak-vault-pki-platform-lab
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/AminJSyed/keycloak-vault-pki-platform-lab.git
+    targetRevision: main
+    path: helm/platform-api
+    helm:
+      valueFiles:
+        - values.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: iam-platform
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

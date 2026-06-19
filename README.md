@@ -201,3 +201,26 @@ Documentation:
 Clean evidence summary:
 
 - evidence/kubernetes-helm-summary.md
+
+## ArgoCD GitOps
+
+This project includes ArgoCD GitOps deployment for the protected FastAPI API.
+
+GitOps coverage:
+
+- ArgoCD installed inside Kubernetes
+- GitHub repository used as source of truth
+- Helm chart deployed through ArgoCD
+- Automated sync enabled
+- Prune and self-heal enabled
+- ArgoCD UI exposed without kubectl port-forward using kind port mapping
+- Platform API exposed without kubectl port-forward using NodePort
+- Application reached Synced and Healthy state
+
+Documentation:
+
+- docs/gitops/argocd-gitops.md
+
+Clean evidence summary:
+
+- evidence/argocd-gitops-summary.md
