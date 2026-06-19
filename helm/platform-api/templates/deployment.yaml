@@ -16,21 +16,25 @@ spec:
         app.kubernetes.io/name: platform-api
         app.kubernetes.io/part-of: keycloak-vault-pki-platform-lab
     spec:
+      securityContext:
+{{ toYaml .Values.podSecurityContext | indent 8 }}
       containers:
         - name: platform-api
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+{{ toYaml .Values.containerSecurityContext | indent 12 }}
           ports:
             - containerPort: 8000
           env:
             - name: KEYCLOAK_REALM
-              value: "{{ .Values.env.KEYCLOAK_REALM }}"
+              value: {{ .Values.env.KEYCLOAK_REALM | quote }}
             - name: KEYCLOAK_ISSUER
-              value: "{{ .Values.env.KEYCLOAK_ISSUER }}"
+              value: {{ .Values.env.KEYCLOAK_ISSUER | quote }}
             - name: KEYCLOAK_INTERNAL_JWKS_URL
-              value: "{{ .Values.env.KEYCLOAK_INTERNAL_JWKS_URL }}"
+              value: {{ .Values.env.KEYCLOAK_INTERNAL_JWKS_URL | quote }}
             - name: KEYCLOAK_AUDIENCE
-              value: "{{ .Values.env.KEYCLOAK_AUDIENCE }}"
+              value: {{ .Values.env.KEYCLOAK_AUDIENCE | quote }}
           readinessProbe:
             httpGet:
               path: /health
