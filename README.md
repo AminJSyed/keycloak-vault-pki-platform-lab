@@ -224,3 +224,21 @@ Documentation:
 Clean evidence summary:
 
 - evidence/argocd-gitops-summary.md
+
+## Kubernetes Security Hardening
+
+The platform API workload includes production-style Kubernetes security hardening.
+
+Hardening controls:
+
+- Non-root container execution
+- Fixed runtime user and group
+- Read-only root filesystem
+- Privilege escalation disabled
+- Linux capabilities dropped
+- RuntimeDefault seccomp profile
+- GitOps-managed rollout through ArgoCD
+
+Clean evidence summary:
+
+- evidence/kubernetes-security-hardening-summary.md
